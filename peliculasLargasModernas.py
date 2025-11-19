@@ -19,4 +19,11 @@ def peliculas_largas_modernas(listaPeliculas):
     ordenadas = sorted(masPelis, key=lambda o: o["duracion"], reverse=True)
     return [r["titulo"] for r in ordenadas]
 
+#Versión más compacta
+def peliculas_largas_modernas_V2(listaPeliculas):
+    pelis = [p for p in listaPeliculas if p["duracion"] > 100 and p["anio"] > 2000]
+    ordenadas = sorted(pelis, key=lambda o: o["duracion"], reverse=True)
+    return [r["titulo"] for r in ordenadas]
+
 print(peliculas_largas_modernas(peliculas))
+print(peliculas_largas_modernas_V2(peliculas))
