@@ -18,6 +18,6 @@ pedidos = [
 def pedidos_premium(listaPedidos):
     entregados = [e for e in listaPedidos if e["entregado"] and e["importe"] > 200]
     ordenados = sorted(entregados, key=lambda o: o["importe"], reverse=True)
-    return [f"{r["cliente"]} - {r["importe"]}€" for r in ordenados]
+    return [f"{r['cliente']} - {r['importe']}€" for r in ordenados]
 
 print(pedidos_premium(pedidos))
