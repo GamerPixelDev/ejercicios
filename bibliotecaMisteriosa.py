@@ -15,4 +15,10 @@ def filtrar_y_ordenar(libros):
         titulos.append(g["titulo"])
     return titulos
 
+#Función compacta
+def filtrar_y_ordenar_OP(libros):
+    filtrados = [l for l in libros if l["anio"] > 2000]
+    ordenados = sorted(filtrados, key=lambda l: l["paginas"], reverse=True)
+    return [l["titulo"] for l in ordenados]
+
 print(filtrar_y_ordenar(libros))
