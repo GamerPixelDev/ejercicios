@@ -1,3 +1,9 @@
+#EJERCICIO 2
+#Haz una función llamada productos_disponibles_ordenados que:
+#Filtre únicamente los productos cuyo stock sea mayor que 0.
+#Ordene esos productos por precio de menor a mayor.
+#Devuelva una lista con los nombres de los productos en ese orden.
+
 productos = [
     {"nombre": "Teclado", "precio": 25.99, "stock": 12},
     {"nombre": "Ratón", "precio": 14.50, "stock": 0},

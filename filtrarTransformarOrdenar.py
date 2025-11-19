@@ -1,3 +1,9 @@
+#Ejercicio 3 – Filtrar, transformar y ordenar diccionarios
+#Crear una función llamada ranking_activos(listaJugadores) que:
+#Filtre solo los jugadores activos.
+#Ordene esos jugadores activos por puntuación de mayor a menor.
+#Transforme la lista para devolver solo un listado de cadenas con el formato:
+
 jugadores = [
     {"nombre": "Ana", "puntuacion": 120, "activo": True},
     {"nombre": "Luis", "puntuacion": 95, "activo": False},
