@@ -13,7 +13,9 @@ empleados = [
     {"nombre": "Mara", "salario": 3000, "departamento": "Ventas"},
 ]
 def empleado_marketing_bienpagados(listaEmpleados):
-    marketing = [m for m in listaEmpleados if m["departamento"] == "Marketing" and m["salario"] > 2000]
+    marketing = [m for m in listaEmpleados
+                    if m["departamento"] == "Marketing" and m["salario"] > 2000
+                ]
     ordenados = sorted(marketing, key=lambda o: o["salario"], reverse=True)
     return[r["nombre"] for r in ordenados]
 
