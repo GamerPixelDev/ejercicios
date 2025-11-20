@@ -95,8 +95,8 @@ def electro_stats(listaInventario):
     total_stock = sum(ie["stock"] for ie in itemElectronico)
     precio_medio = round(sum(ie["precio"] for ie in itemElectronico) / len(itemElectronico), 1)
     ordenarPrecio = sorted(itemElectronico, key=lambda op: -op["precio"])
-    top = ordenarPrecio[:1]
-    top_mas_caro = f"{top[0]['nombre']} — {top[0]['precio']}"
+    top = ordenarPrecio[0]
+    top_mas_caro = f"{top[0]['nombre']} — {top[0]['precio']}€"
     nuevoDiccionario = {"total_productos": total_productos,
                         "total_stock": total_stock,
                         "precio_medio": precio_medio,
