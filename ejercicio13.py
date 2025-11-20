@@ -49,6 +49,8 @@ def item_electro(listaInventario):
                         and not ie["descatalogado"]
                         and ie["stock"] > 0
                     ]
-    ordenados = sorted(itemElectronico, key=lambda o: (o["precio"], o["nombre"]))
+    if not itemElectronico:
+        return "No hay productos electrónicos disponibles."
+    ordenados = sorted(itemElectronico, key=lambda o: (-o["precio"], o["nombre"]))
     nuevaLista = ordenados[:3]
     return [f"{r['nombre']} — {r['precio']}€ — stock {r['stock']}" for r in nuevaLista]
