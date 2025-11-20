@@ -89,19 +89,19 @@ def electro_stats(listaInventario):
                         and not ie["descatalogado"]
                         and ie["stock"] > 0
                     ]
+    if not itemElectronico:
+        return {}
     total_productos = len(itemElectronico)
     total_stock = sum(ie["stock"] for ie in itemElectronico)
-    precio_medio = sum(ie["precio"] for ie in itemElectronico) / len(itemElectronico)
-    ordenarPrecio = sorted(itemElectronico, key=lambda op: op["precio"])
+    precio_medio = round(sum(ie["precio"] for ie in itemElectronico) / len(itemElectronico), 1)
+    ordenarPrecio = sorted(itemElectronico, key=lambda op: -op["precio"])
     top = ordenarPrecio[:1]
-    top_mas_caro = [f"{t['nombre']} — {t['precio']}" for t in top]
-    nuevoDiccionario = {"total_producto": total_productos,
+    top_mas_caro = f"{top[0]['nombre']} — {top[0]['precio']}"
+    nuevoDiccionario = {"total_productos": total_productos,
                         "total_stock": total_stock,
                         "precio_medio": precio_medio,
                         "top_mas_caro": top_mas_caro
                         }
-    if not nuevoDiccionario:
-        return {}
     return nuevoDiccionario
 
 
