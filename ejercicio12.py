@@ -49,10 +49,10 @@ print(envios_prioritarios(envios))
 def envios_clasificados(listaEnvios):
     enviosUrgentes = [eu for eu in listaEnvios
                         if eu["urgente"]
-                            or (eu["destino"] == "Madrid" and eu["peso"] > 1.5)
-                            or eu["peso"] > 10
+                            or (eu["destino"] == "Madrid" and eu["peso"] > 1)
+                            or eu["peso"] > 7
                     ]
-    ordenados = sorted (enviosUrgentes, key=lambda o: (o["urgente"] and o["peso"], not o["urgente"] and o["peso"]), reverse=True)
+    ordenados = sorted (enviosUrgentes, key=lambda o: (not o["urgente"], -o["peso"]))
     return [f"{'[URGENTE]' if r['urgente'] else '[NORMAL]'} ID {r['id']} -> {r['peso']}kg -> {r['destino']} {'⚠️ PESADO' if r['peso'] > 8 else ''}" for r in ordenados]
 
 print(envios_clasificados(envios))
