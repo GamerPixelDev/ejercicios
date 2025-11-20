@@ -54,3 +54,55 @@ def item_electro(listaInventario):
     ordenados = sorted(itemElectronico, key=lambda o: (-o["precio"], o["nombre"]))
     nuevaLista = ordenados[:3]
     return [f"{r['nombre']} — {r['precio']}€ — stock {r['stock']}" for r in nuevaLista]
+
+print(item_electro(inventario))
+
+#Ejercicio 13C — Inventario maldito, fase final
+#Ahora vas a construir una función llamada electro_stats(inventario) que hace varias cosas a la vez.
+#REGLA 1 — Filtrado base (igual que antes)
+#    Te quedas solo con productos:
+##       categoría electrónica
+#        no descatalogados
+#        stock > 0
+#REGLA 2 — Calcular estadísticas
+#    Con los filtrados correctos, debes devolver un diccionario así:
+#    {
+#        "total_productos": X,
+#        "stock_total": Y,
+#        "precio_medio": Z,
+#        "top_mas_caro": "NombreProducto — Precio€"
+#    }
+#Detalles importantes:
+#    total_productos - Cantidad de productos filtrados.
+#    stock_total - Suma de los stocks de todos los productos filtrados.
+#    precio_medio - Media aritmética de los precios, redondeada a 1 decimal.
+#    top_mas_caro - El producto más caro.
+#    Formato:
+#        "Portátil Gamer — 1200€"
+#REGLA 3 — Si NO hay productos válidos
+#    Devuelve:
+#    {} Un diccionario vacío. Nada más
+
+def electro_stats(listaInventario):
+    itemElectronico = [ie for ie in listaInventario
+                        if ie["categoria"] == "electrónica"
+                        and not ie["descatalogado"]
+                        and ie["stock"] > 0
+                    ]
+    total_productos = len(itemElectronico)
+    total_stock = sum(ie["stock"] for ie in itemElectronico)
+    precio_medio = sum(ie["precio"] for ie in itemElectronico) / len(itemElectronico)
+    ordenarPrecio = sorted(itemElectronico, key=lambda op: op["precio"])
+    top = ordenarPrecio[:1]
+    top_mas_caro = [f"{t['nombre']} — {t['precio']}" for t in top]
+    nuevoDiccionario = {"total_producto": total_productos,
+                        "total_stock": total_stock,
+                        "precio_medio": precio_medio,
+                        "top_mas_caro": top_mas_caro
+                        }
+    if not nuevoDiccionario:
+        return {}
+    return nuevoDiccionario
+
+
+print(electro_stats(inventario))
