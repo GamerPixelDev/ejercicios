@@ -32,3 +32,23 @@ def electro_top(listaInventario):
     return [f"{r['nombre']} - {r['precio']}€ (stock: {r['stock']})" for r in ordenados]
 
 print(electro_top(inventario))
+
+#Ejercicio 13B — Inventario maldito, segunda fase
+#Filtra exactamente como en el 13, PERO añade estas reglas nuevas:
+#   Regla 1 — Solo queremos los 3 más caros.
+#       Si hay menos de 3, devuelves los que haya.
+#   Regla 2 — En caso de empate de precio, desempata por orden alfabético.
+#   Regla 3 — Si después de filtrar no queda NINGÚN producto válido, devuelve la cadena:
+#       "No hay productos electrónicos disponibles."
+#Devuelve una lista de strings así:
+#   "Portátil Gamer — 1200€ — stock 5"
+
+def item_electro(listaInventario):
+    itemElectronico = [ie for ie in listaInventario
+                        if ie["categoria"] == "electrónica"
+                        and not ie["descatalogado"]
+                        and ie["stock"] > 0
+                    ]
+    ordenados = sorted(itemElectronico, key=lambda o: (o["precio"], o["nombre"]))
+    nuevaLista = ordenados[:3]
+    return [f"{r['nombre']} — {r['precio']}€ — stock {r['stock']}" for r in nuevaLista]
