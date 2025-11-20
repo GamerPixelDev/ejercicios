@@ -26,9 +26,9 @@ def electro_top(listaInventario):
     itemElectronic = [ie for ie in listaInventario
                         if ie["categoria"] == "electrónica"
                         and not ie["descatalogado"]
-                        and not ie["stock"] == 0
+                        and ie["stock"] > 0
                     ]
     ordenados = sorted(itemElectronic, key=lambda o: -o["precio"])
-    return [f"{r["nombre"]} - {r["precio"]}€ (stock: {r["stock"]})" for r in ordenados]
+    return [f"{r['nombre']} - {r['precio']}€ (stock: {r['stock']})" for r in ordenados]
 
 print(electro_top(inventario))
