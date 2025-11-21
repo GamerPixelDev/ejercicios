@@ -19,11 +19,12 @@ ventas = [
     {"producto": "Auriculares MaxSound", "precio_unitario": 120, "cantidad": 5, "devoluciones": 0},
     {"producto": "Teclado Mecánico", "precio_unitario": 90, "cantidad": 6, "devoluciones": 0},
 ]
+
 def ventas_sospechosas(listaVentas):
     sospechosos = [s for s in listaVentas
                     if  (s["precio_unitario"] * s["cantidad"]) > 500
                     and s["devoluciones"] == 0
-                    and "A" <= s["producto"] <= "M"
+                    and "A" <= s["producto"][0].upper() <= "M"
                 ]
     ordenados = sorted(sospechosos, key=lambda o: (-o["precio_unitario"] * o["cantidad"]))
     return [f"{r['producto']} - {r['precio_unitario'] * r['cantidad']}€" for r in ordenados]
