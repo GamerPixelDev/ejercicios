@@ -40,8 +40,8 @@ def selecion_becas(listaSolicitudes):
     becasExcelencia = [be for be in listaSolicitudes
                         if be["modalidad"] == "excelencia" and be["nota_media"] >= 9
                     ]
-    ordenadosGenerales = sorted(becasGeneral, key=lambda og: (og["voluntariado"], -og["nota_media"]))
+    ordenadosGenerales = sorted(becasGeneral, key=lambda og: (-og["voluntariado"], -og["nota_media"]))
     ordenadosExcelentes = sorted(becasExcelencia, key=lambda oe: -oe["nota_media"])
-    return [f"{re['nombre']} — {re['modalidad']} — {re['nota_media']} {('voluntario') if re['voluntariado'] else ''}" for re in ordenadosExcelentes] + [f"{ro['nombre']} — {ro['modalidad']} — {ro['nota_media']} {'(voluntario)' if ro['voluntariado'] else ''}" for ro in ordenadosGenerales]
+    return [f"{re['nombre']} — {re['modalidad']} — {re['nota_media']} {'(voluntario)' if re['voluntariado'] else ''}" for re in ordenadosExcelentes] + [f"{ro['nombre']} — {ro['modalidad']} — {ro['nota_media']} {'(voluntario)' if ro['voluntariado'] else ''}" for ro in ordenadosGenerales]
 
 print(selecion_becas(solicitudes))
