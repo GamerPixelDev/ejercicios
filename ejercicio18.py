@@ -15,7 +15,7 @@ vuelos = [
     {"codigo": "UX555", "origen": "Valencia", "destino": "Roma", "duracion": 145, "precio": 160, "directo": True},
 ]
 
-def viajes_baratos_rapidos(listaVuelos):
+def vuelos_baratos_rapidos(listaVuelos):
     baratos = [b for b in listaVuelos
                 if b["directo"]
                 and b["precio"] < 150
@@ -23,4 +23,4 @@ def viajes_baratos_rapidos(listaVuelos):
             ]
     return [f"{r['codigo']} - {r['precio']}€ - {r['duracion']}min" for r in baratos]
 
-print(viajes_baratos_rapidos(vuelos))
+print(vuelos_baratos_rapidos(vuelos))
