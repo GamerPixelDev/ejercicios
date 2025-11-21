@@ -26,7 +26,7 @@ def reservas_sospechosas(listaReservas):
     sospechosas = [s for s in listaReservas
                     if (s["precio_noche"] * s["noches"]) > 900
                     and not s["cancelada"]
-                    and s["destino"][0].upper() == "M"
+                    and s["destino"][0].upper() == "M" #tambien se puede poner: s["destino"].startswith(("M", "m"))
                 ]
     sospechosas.sort(key=lambda s: -s["precio_noche"] * s["noches"])
     return [f"{r['cliente']} - {r['destino']} - {r['precio_noche'] * r['noches']}€" for r in sospechosas]
