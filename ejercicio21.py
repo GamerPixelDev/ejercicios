@@ -31,6 +31,8 @@ compras = [
 ]
 
 def clientes_vip(listaCompras):
+    resumen = []
+    #Vemos si Ana es cliente VIP
     comprasAna = [ca for ca in listaCompras
                             if ca['cliente'] == 'Ana'
                         ]
@@ -45,9 +47,59 @@ def clientes_vip(listaCompras):
     if totalComprasAna >= 500 and comprasValidasAna >= 2:
         clienteVipAna = True
     totalAna = f"{nombreAna} - {totalComprasAna} en {comprasValidasAna} compras"
-    resumen = []
     if clienteVipAna:
         resumen.append(totalAna)
+    #Vemos si Luis es cliente VIP
+    comprasLuis = [cl for cl in listaCompras
+                            if cl['cliente'] == 'Luis'
+                        ]
+    nombreLuis = comprasLuis[0]['cliente']
+    totalComprasLuis = 0
+    comprasValidasLuis = 0
+    clienteVipLuis = False
+    for cl in comprasLuis:
+        if not cl['devuelto']:
+            totalComprasLuis = totalComprasLuis + cl['importe']
+            comprasValidasLuis += 1
+    if totalComprasLuis >= 500 and comprasValidasLuis >= 2:
+        clienteVipLuis = True
+    totalLuis = f"{nombreLuis} - {totalComprasLuis} en {comprasValidasLuis} compras"
+    if clienteVipLuis:
+        resumen.append(totalLuis)
+    #Vemos si Carla es cliente VIP
+    comprasCarla = [cc for cc in listaCompras
+                            if cc['cliente'] == 'Carla'
+                        ]
+    nombreCarla = comprasCarla[0]['cliente']
+    totalComprasCarla = 0
+    comprasValidasCarla = 0
+    clienteVipCarla = False
+    for cc in comprasCarla:
+        if not cc['devuelto']:
+            totalComprasCarla = totalComprasCarla + cc['importe']
+            comprasValidasCarla += 1
+    if totalComprasCarla >= 500 and comprasValidasCarla >= 2:
+        clienteVipCarla = True
+    totalCarla = f"{nombreCarla} - {totalComprasCarla} en {comprasValidasCarla} compras"
+    if clienteVipCarla:
+        resumen.append(totalCarla)
+    #Vemos si Jorge es cliente VIP
+    comprasJorge = [cc for cc in listaCompras
+                            if cc['cliente'] == 'Carla'
+                        ]
+    nombreCarla = comprasCarla[0]['cliente']
+    totalComprasCarla = 0
+    comprasValidasCarla = 0
+    clienteVipCarla = False
+    for cc in comprasCarla:
+        if not cc['devuelto']:
+            totalComprasCarla = totalComprasCarla + cc['importe']
+            comprasValidasCarla += 1
+    if totalComprasCarla >= 500 and comprasValidasCarla >= 2:
+        clienteVipCarla = True
+    totalCarla = f"{nombreCarla} - {totalComprasCarla} en {comprasValidasCarla} compras"
+    if clienteVipCarla:
+        resumen.append(totalCarla)
     return resumen
 
 print(clientes_vip(compras))
