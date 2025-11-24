@@ -18,7 +18,7 @@ def resumen_jugador(listaPartidas, nombreJugador):
         return {}
     #Guardamos el nombre del jugador en una variable
     player1 = player[0]['jugador']
-    #COntamos las partidas que ha jusdo el jugador
+    #COntamos las partidas que ha jugado el jugador
     totalPartidas = len(player)
     #KDA medio más alto
     kdas = []
@@ -40,7 +40,7 @@ def resumen_jugador(listaPartidas, nombreJugador):
         modoJugado = "ambos por igual"
     else:
         modoJugado = "normal"
-    #Averiguamos cual es la mejor partida mediate el kda medio de cada partida
+    #Averiguamos cual es la mejor partida mediante el kda medio de cada partida
     mejor = None
     mejor_kda = -1
     for p in player:

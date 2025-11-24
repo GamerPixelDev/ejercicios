@@ -120,20 +120,30 @@ def clientes_vip(listaCompras):
     return resumen
 
 def cliente_vip_2(listaCompras):
-    totalCompras = 0
-    comprasValidas = 0
-    clienteVIP = False
-    resumen = []
+    #Acumulamos los datos por cliente (solo compras no devueltas)
+    resumen = {}
     for lc in listaCompras:
-        if lc['cliente'] == 'Ana' and not lc['devuelto']:
-            totalCompras = totalCompras + lc['importe']
-            comprasValidas += 1
-            if totalCompras >= 500 and comprasValidas >= 2:
-                clienteVIP = True
-            if clienteVIP:
-                total = f"{lc['cliente']} - {totalCompras} en {comprasValidas} compras"
-                resumen.append(total)
-    return resumen
+        if lc['devuelto']:
+            continue #Aquí se ignoran devoluciones
+        nombre = lc['cliente']
+        importe = lc['importe']
+        if nombre not in resumen:
+            resumen[nombre] = {"total": 0.0, "compras": 0}
+        resumen[nombre]["total"] += importe
+        resumen[nombre]["compras"] += 1
+        #Filtramos los clientes VIPs
+    vips = []
+    for nombre, datos in resumen.items():
+        total = datos["total"]
+        compras = datos["compras"]
+        if total >= 500 and compras >= 2:
+            vips.append((nombre, total, compras))
+    #Ordenamos los clientes de mayor a menor total gastado
+    vips.sort(key=lambda vo: -vo[1])
+    #Damos formato a la salida
+    resultado = [f"{vips[0][0]} - {vips[0][1]}€ en {vips[0][2]} compras"]
+        
+    return resultado
 
 print(clientes_vip(compras))
 print(cliente_vip_2(compras))
