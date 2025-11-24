@@ -84,22 +84,22 @@ def clientes_vip(listaCompras):
     if clienteVipCarla:
         resumen.append(totalCarla)
     #Vemos si Jorge es cliente VIP
-    comprasJorge = [cc for cc in listaCompras
-                            if cc['cliente'] == 'Carla'
+    comprasJorge = [cj for cj in listaCompras
+                            if cj['cliente'] == 'Jorge'
                         ]
-    nombreCarla = comprasCarla[0]['cliente']
-    totalComprasCarla = 0
-    comprasValidasCarla = 0
-    clienteVipCarla = False
-    for cc in comprasCarla:
-        if not cc['devuelto']:
-            totalComprasCarla = totalComprasCarla + cc['importe']
-            comprasValidasCarla += 1
-    if totalComprasCarla >= 500 and comprasValidasCarla >= 2:
-        clienteVipCarla = True
-    totalCarla = f"{nombreCarla} - {totalComprasCarla} en {comprasValidasCarla} compras"
-    if clienteVipCarla:
-        resumen.append(totalCarla)
+    nombreJorge = comprasJorge[0]['cliente']
+    totalComprasJorge = 0
+    comprasValidasJorge = 0
+    clienteVipJorge = False
+    for cj in comprasJorge:
+        if not cj['devuelto']:
+            totalComprasJorge = totalComprasJorge + cj['importe']
+            comprasValidasJorge += 1
+    if totalComprasJorge >= 500 and comprasValidasJorge >= 2:
+        clienteVipJorge = True
+    totalJorge = f"{nombreJorge} - {totalComprasJorge} en {comprasValidasJorge} compras"
+    if clienteVipJorge:
+        resumen.append(totalJorge)
     return resumen
 
 print(clientes_vip(compras))
