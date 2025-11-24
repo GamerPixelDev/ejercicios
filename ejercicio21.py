@@ -119,31 +119,78 @@ def clientes_vip(listaCompras):
         resumen.append(totalMara)
     return resumen
 
+print(clientes_vip(compras))
+
 def cliente_vip_2(listaCompras):
     #Acumulamos los datos por cliente (solo compras no devueltas)
     resumen = {}
+    favTec = 0
+    favRop = 0
+    favHog = 0
     for lc in listaCompras:
         if lc['devuelto']:
             continue #Aquí se ignoran devoluciones
         nombre = lc['cliente']
         importe = lc['importe']
+        favorito = lc['categoria']
         if nombre not in resumen:
-            resumen[nombre] = {"total": 0.0, "compras": 0}
+            resumen[nombre] = {"total": 0.0, "compras": 0, "favorito": None}
         resumen[nombre]["total"] += importe
         resumen[nombre]["compras"] += 1
+        if favorito == "tecnología":
+            favTec += 1
+        elif favorito == "ropa":
+            favRop += 1
+        else:
+            favHog +=1
+        resultadoFav =  max(favTec, favRop, favHog)
+        if resultadoFav == favTec:
+            resumen[nombre]["favorito"] = "tecnología"
+        elif resultadoFav == favRop:
+            resumen[nombre]["favorito"] = "ropa"
+        else:
+            resumen[nombre]["favorito"] = "hogar"
         #Filtramos los clientes VIPs
     vips = []
     for nombre, datos in resumen.items():
         total = datos["total"]
         compras = datos["compras"]
+        favorito = datos["favorito"]
         if total >= 500 and compras >= 2:
-            vips.append((nombre, total, compras))
+            vips.append((nombre, total, compras, favorito))
     #Ordenamos los clientes de mayor a menor total gastado
     vips.sort(key=lambda vo: -vo[1])
     #Damos formato a la salida
-    resultado = [f"{vips[0][0]} - {vips[0][1]}€ en {vips[0][2]} compras"]
+    resultado = [f"{nombre} — {total}€ en {compras} compras — categoría favorita: {favorito}"
+                    for (nombre, total, compras, favorito) in vips
+                ]
         
-    return resultado
+    return resultado, favTec, favRop, favHog
 
-print(clientes_vip(compras))
 print(cliente_vip_2(compras))
+
+def clientes_vip_3(listaCompras):
+    resumen = []
+    # 1. Sacamos el conjunto de nombres de clientes
+    clientes = {c["cliente"] for c in listaCompras}
+    # 2. Para cada cliente calculamos sus estadísticas
+    for nombre in clientes:
+        # compras de ese cliente que NO han sido devueltas
+        compras_cliente = [
+            c for c in listaCompras
+            if c["cliente"] == nombre and not c["devuelto"]
+        ]
+        total = sum(c["importe"] for c in compras_cliente)
+        compras_validas = len(compras_cliente)
+        # 3. ¿Es VIP?
+        if total >= 500 and compras_validas >= 2:
+            resumen.append((nombre, total, compras_validas))
+    # 4. Ordenamos de mayor a menor por total gastado
+    resumen_ordenado = sorted(resumen, key=lambda t: t[1], reverse=True)
+    # 5. Formateamos la salida
+    return [
+        f"{nombre} — {total}€ en {compras} compras"
+        for (nombre, total, compras) in resumen_ordenado
+    ]
+
+print(clientes_vip_3(compras))
