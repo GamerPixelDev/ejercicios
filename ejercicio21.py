@@ -46,7 +46,8 @@ def clientes_vip(listaCompras):
         clienteVipAna = True
     totalAna = f"{nombreAna} - {totalComprasAna} en {comprasValidasAna} compras"
     resumen = []
-    resumen.append(totalAna)
+    if clienteVipAna:
+        resumen.append(totalAna)
     return resumen
 
 print(clientes_vip(compras))
