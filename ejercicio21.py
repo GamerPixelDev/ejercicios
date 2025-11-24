@@ -134,38 +134,27 @@ def cliente_vip_2(listaCompras):
         importe = lc['importe']
         favorito = lc['categoria']
         if nombre not in resumen:
-            resumen[nombre] = {"total": 0.0, "compras": 0, "favorito": None}
+            resumen[nombre] = {"total": 0.0, "compras": 0, "favorito": {"tecnología": 0, "ropa": 0, "hogar": 0}}
         resumen[nombre]["total"] += importe
         resumen[nombre]["compras"] += 1
-        if favorito == "tecnología":
-            favTec += 1
-        elif favorito == "ropa":
-            favRop += 1
-        else:
-            favHog +=1
-        resultadoFav =  max(favTec, favRop, favHog)
-        if resultadoFav == favTec:
-            resumen[nombre]["favorito"] = "tecnología"
-        elif resultadoFav == favRop:
-            resumen[nombre]["favorito"] = "ropa"
-        else:
-            resumen[nombre]["favorito"] = "hogar"
+        resumen[nombre]["favorito"][favorito] += 1
         #Filtramos los clientes VIPs
     vips = []
     for nombre, datos in resumen.items():
         total = datos["total"]
         compras = datos["compras"]
         favorito = datos["favorito"]
+        catFavorita = max(favorito, key=favorito.get)
         if total >= 500 and compras >= 2:
-            vips.append((nombre, total, compras, favorito))
+            vips.append((nombre, total, compras, catFavorita))
     #Ordenamos los clientes de mayor a menor total gastado
     vips.sort(key=lambda vo: -vo[1])
     #Damos formato a la salida
-    resultado = [f"{nombre} — {total}€ en {compras} compras — categoría favorita: {favorito}"
-                    for (nombre, total, compras, favorito) in vips
+    resultado = [f"{nombre} — {total}€ en {compras} compras — categoría favorita: {catFavorita}"
+                    for (nombre, total, compras, catFavorita) in vips
                 ]
         
-    return resultado, favTec, favRop, favHog
+    return resultado
 
 print(cliente_vip_2(compras))
 
