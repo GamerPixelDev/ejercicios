@@ -13,15 +13,20 @@ def resumen_jugador(listaPartidas, nombreJugador):
     player = [p for p in listaPartidas
                 if p['jugador'] == nombreJugador
             ]
+    #Devuelve un diccionario vacío si no encuentra alguna coincidencia
     if not player:
         return {}
+    #Guardamos el nombre del jugador en una variable
     player1 = player[0]['jugador']
+    #COntamos las partidas que ha jusdo el jugador
     totalPartidas = len(player)
+    #KDA medio más alto
     kdas = []
     for p in player:
         kda_partida = (p['kills'] + p['asistencias']) / max(1, p['muertes'])
         kdas.append(kda_partida)
     totalKda = round(sum(kdas) / len(kdas), 2)
+    #Guardamos en cada variable el modo de juego para luego compararlo
     totalRankeds = 0
     totalNormal = 0
     for p1 in player:
@@ -35,6 +40,7 @@ def resumen_jugador(listaPartidas, nombreJugador):
         modoJugado = "ambos por igual"
     else:
         modoJugado = "normal"
+    #Averiguamos cual es la mejor partida mediate el kda medio de cada partida
     mejor = None
     mejor_kda = -1
     for p in player:
@@ -42,7 +48,9 @@ def resumen_jugador(listaPartidas, nombreJugador):
         if kda > mejor_kda:
             mejor_kda = kda
             mejor = p
+    #Montamos la variable con la mejor partida
     mejor_partida = f"{mejor['modo']} - {mejor['kills']}/{mejor['muertes']}/{mejor['asistencias']} en {mejor['duracion']}min"
+    #Diccionario a devolver
     resumen = {
         "jugador": player1,
         "total_partidas": totalPartidas,
