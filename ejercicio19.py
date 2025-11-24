@@ -30,6 +30,29 @@ def partidas_destacadas(listaPartidas):
                     and p['duracion'] >= 20
                 ]
     partidas.sort(key=lambda po: (-(po['kills'] + po['asistencias']) / max(1, po['muertes']), po['duracion']))
-    return [f"{r['jugador']} - KDA {(r['kills'] + r['asistencias']) / max(1, r['muertes'])} - {r['duracion']} {'(ranked)' if r['modo'] == 'ranked' else ''}" for r in partidas]
+    return [f"{r['jugador']} - KDA {(r['kills'] + r['asistencias']) / max(1, r['muertes'])} - {r['duracion']}min {'(ranked)' if r['modo'] == 'ranked' else ''}" for r in partidas]
 
 print(partidas_destacadas(partidas))
+
+def partidas_destacadas_2(listaPartidas):
+    partidas_filtradas = [
+        p for p in listaPartidas
+        if p['modo'] == "ranked"
+        and (p['kills'] + p['asistencias']) / max(1, p['muertes']) >= 3
+        and p['duracion'] >= 20
+    ]
+    partidas_filtradas.sort(
+        key=lambda po: (
+            -((po['kills'] + po['asistencias']) / max(1, po['muertes'])),
+            po['duracion']
+        )
+    )
+    resultado = []
+    for r in partidas_filtradas:
+        kda = (r['kills'] + r['asistencias']) / max(1, r['muertes'])
+        resultado.append(
+            f"{r['jugador']} - KDA {kda:.2f} - {r['duracion']}min (ranked)"
+        )
+    return resultado
+
+print(partidas_destacadas_2(partidas))
