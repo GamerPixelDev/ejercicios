@@ -17,10 +17,11 @@ def resumen_jugador(listaPartidas, nombreJugador):
         return {}
     player1 = player[0]['jugador']
     totalPartidas = len(player)
-    totalKills = sum(p1['kills'] for p1 in player)
-    totalAsis = sum(p1['asistencias'] for p1 in player)
-    totalMuertes = sum(p1['muertes'] for p1 in player)
-    totalKda = round((totalKills + totalAsis) / max(1, totalMuertes),2)
+    kdas = []
+    for p in player:
+        kda_partida = (p['kills'] + p['asistencias']) / max(1, p['muertes'])
+        kdas.append(kda_partida)
+    totalKda = round(sum(kdas) / len(kdas), 2)
     totalRankeds = 0
     totalNormal = 0
     for p1 in player:
@@ -39,6 +40,7 @@ def resumen_jugador(listaPartidas, nombreJugador):
     for p in player:
         kda = (p['kills'] + p['asistencias']) / max(1, p['muertes'])
         if kda > mejor_kda:
+            mejor_kda = kda
             mejor = p
     mejor_partida = f"{mejor['modo']} - {mejor['kills']}/{mejor['muertes']}/{mejor['asistencias']} en {mejor['duracion']}min"
     resumen = {
