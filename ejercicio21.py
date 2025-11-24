@@ -119,4 +119,21 @@ def clientes_vip(listaCompras):
         resumen.append(totalMara)
     return resumen
 
+def cliente_vip_2(listaCompras):
+    totalCompras = 0
+    comprasValidas = 0
+    clienteVIP = False
+    resumen = []
+    for lc in listaCompras:
+        if lc['cliente'] == 'Ana' and not lc['devuelto']:
+            totalCompras = totalCompras + lc['importe']
+            comprasValidas += 1
+            if totalCompras >= 500 and comprasValidas >= 2:
+                clienteVIP = True
+            if clienteVIP:
+                total = f"{lc['cliente']} - {totalCompras} en {comprasValidas} compras"
+                resumen.append(total)
+    return resumen
+
 print(clientes_vip(compras))
+print(cliente_vip_2(compras))
