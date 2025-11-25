@@ -124,9 +124,6 @@ print(clientes_vip(compras))
 def cliente_vip_2(listaCompras):
     #Acumulamos los datos por cliente (solo compras no devueltas)
     resumen = {}
-    favTec = 0
-    favRop = 0
-    favHog = 0
     for lc in listaCompras:
         if lc['devuelto']:
             continue #Aquí se ignoran devoluciones
