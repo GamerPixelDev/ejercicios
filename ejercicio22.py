@@ -23,19 +23,46 @@ matriculas = [
 ]
 
 def resumen_academico(listaMatriculas):
-    resumen = {}
-    alumnos = set() #Con set() es como una lista pero cada elemento solo puede aparecer una vez
-    cursosFinalizado = 0
-    totalNotas = 0.0
+    if not listaMatriculas:
+        return {}
+    alumnos = set()
+    cursos_finalizados = 0
+    suma_notas_global = 0.0
+    contador_notas = 0
+    # Aquí guardamos TODAS las notas por alumno
+    # Ej: {"Ana": [8.5, 7.0], "Carla": [9.2, 8.8], "Jorge": [5.5]}
+    notas_por_alumno = {}
     for lm in listaMatriculas:
-        alumnos.add(lm['alumno'])
-        if not lm['finalizado']:
-            continue
-        cursosFinalizado += 1
-        totalNotas = totalNotas + lm['nota']
-
-    totalAlumnos = len(alumnos)
-        
-    return totalAlumnos, cursosFinalizado, totalNotas
+        alumnos.add(lm["alumno"])
+        if not lm["finalizado"]:
+            continue  # ignoramos los cursos no finalizados
+        cursos_finalizados += 1
+        nota = lm["nota"]
+        suma_notas_global += nota
+        contador_notas += 1
+        nombre = lm["alumno"]
+        if nombre not in notas_por_alumno:
+            notas_por_alumno[nombre] = []
+        notas_por_alumno[nombre].append(nota)
+    # Si no hay ningún curso finalizado, devolvemos diccionario vacío
+    if contador_notas == 0:
+        return {}
+    nota_media_global = round(suma_notas_global / contador_notas, 2)
+    # ---- Cálculo de top_alumno ----
+    mejor_nombre = None
+    mejor_media = -1
+    for nombre, lista_notas in notas_por_alumno.items():
+        media = sum(lista_notas) / len(lista_notas)
+        if media > mejor_media:
+            mejor_media = media
+            mejor_nombre = nombre
+    top_alumno = f"{mejor_nombre} — {round(mejor_media, 1)}"
+    resumen = {
+        "total_alumnos": len(alumnos),
+        "total_cursos_finalizados": cursos_finalizados,
+        "nota_media_global": nota_media_global,
+        "top_alumno": top_alumno
+    }
+    return resumen
 
 print(resumen_academico(matriculas))
