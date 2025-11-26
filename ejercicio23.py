@@ -36,9 +36,42 @@ matriculas = [
 def resumen_cursos(listaMatriculas):
     resumen = {}
     cursos = set()
+    cursoPython = 0
+    notaPython = 0.0
+    finalPython = 0
+    cursoExcel = 0
+    notaExcel = 0.0
+    finalExcel = 0
+    cursoBd = 0
+    notaBd = 0.0
+    finalBd = 0
+    sum_notas = 0.0
+    num_notas = 0
     for lm in listaMatriculas:
         cursos.add(lm['curso'])
+        if lm['curso'] == "Python básico":
+            cursoPython += 1
+            if lm['finalizado']:
+                notaPython += lm['nota']
+                finalPython += 1
+        elif lm['curso'] == "Excel avanzado":
+            cursoExcel += 1
+            if lm['finalizado']:
+                notaExcel += lm['nota']
+                finalExcel += 1
+        else:
+            cursoBd +=1
+            if lm['finalizado']:
+                notaBd += lm['nota']
+                finalBd += 1
+        if not lm['finalizado']:
+            continue
+        sum_notas = sum_notas + lm['nota']
+        num_notas += 1
+    mediaPython = round(notaPython / finalPython, 1)
+    mediaExcel = round(notaExcel / finalExcel, 1)
+    mediaBd = round(notaBd / finalBd, 1)
 
-    return cursos
+    return mediaPython, mediaExcel, mediaBd
 
 print(resumen_cursos(matriculas))
