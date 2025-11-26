@@ -62,25 +62,25 @@ def resumen_cursos(listaMatriculas):
             if lm['finalizado']:
                 notaBd += lm['nota']
                 finalBd += 1
-    mediaPython = round(notaPython / finalPython, 1)
-    mediaExcel = round(notaExcel / finalExcel, 1)
-    mediaBd = round(notaBd / finalBd, 1)
-    tasaPython = round((finalPython / cursoPython) * 100, 1)
-    tasaExcel = round((finalExcel / cursoExcel) * 100, 1)
-    tasaBd = round((finalBd / cursoBd) * 100, 1)
+    mediaPython = round(notaPython / finalPython, 1) if finalPython > 0 else None
+    mediaExcel = round(notaExcel / finalExcel, 1) if finalExcel > 0 else None
+    mediaBd = round(notaBd / finalBd, 1) if finalBd > 0 else None
+    tasaPython = round((finalPython / cursoPython) * 100, 1) if cursoPython > 0 else None
+    tasaExcel = round((finalExcel / cursoExcel) * 100, 1) if cursoExcel > 0 else None
+    tasaBd = round((finalBd / cursoBd) * 100, 1) if cursoBd > 0 else None
     resumen["Python básico"] = {
         "matriculados": cursoPython,
         "finalizados": finalPython,
         "nota_media": mediaPython, 
         "tasa_finalizacion": tasaPython
     }
-    resumen["Excel avanazado"] = {
+    resumen["Excel avanzado"] = {
         "matriculados": cursoExcel,
         "finalizados": finalExcel,
         "nota_media": mediaExcel, 
         "tasa_finalizacion": tasaExcel
     }
-    resumen["Base de datos"] = {
+    resumen["Bases de datos"] = {
         "matriculados": cursoBd,
         "finalizados": finalBd,
         "nota_media": mediaBd, 
