@@ -89,4 +89,31 @@ def resumen_cursos(listaMatriculas):
 
     return resumen
 
-print(resumen_cursos(matriculas))
+#print(resumen_cursos(matriculas)) #Comentar/Descomentar si quiere que aparezca por consola el resultado de def resumen_cursos
+
+def resumen_cursos_2(listaMatriculas):
+    resumen2 = {}
+    for lm in listaMatriculas:
+        curso2 = lm['curso']
+        if curso2 not in resumen2:
+            resumen2[curso2] = {
+                "matriculados": 0,
+                "finalizados": 0,
+                "suma_notas": 0.0,
+                "num_notas": 0
+            }
+        resumen2[curso2]["matriculados"] +=1
+        if lm['finalizado']:
+            resumen2[curso2]["finalizados"] += 1
+            resumen2[curso2]["suma_notas"] += lm['nota']
+            resumen2[curso2]["num_notas"] += 1
+    for curso2, datos in resumen2.items():
+        notaMedia = datos["suma_notas"] / datos["num_notas"] if datos["num_notas"] > 0 else None
+        datos["nota_media"] = notaMedia
+        tasaFin = (datos["finalizados"] / datos["matriculados"]) * 100 if datos["matriculados"] > 0 else None
+        datos["tasa_finalizacion"] = tasaFin
+        del(datos["suma_notas"], datos["num_notas"])
+
+    return resumen2
+
+print(resumen_cursos_2(matriculas))
