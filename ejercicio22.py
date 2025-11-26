@@ -63,6 +63,6 @@ def resumen_academico(listaMatriculas):
         "nota_media_global": nota_media_global,
         "top_alumno": top_alumno
     }
-    return resumen
+    return resumen, notas_por_alumno
 
 print(resumen_academico(matriculas))

@@ -45,8 +45,6 @@ def resumen_cursos(listaMatriculas):
     cursoBd = 0
     notaBd = 0.0
     finalBd = 0
-    sum_notas = 0.0
-    num_notas = 0
     for lm in listaMatriculas:
         cursos.add(lm['curso'])
         if lm['curso'] == "Python básico":
@@ -64,14 +62,31 @@ def resumen_cursos(listaMatriculas):
             if lm['finalizado']:
                 notaBd += lm['nota']
                 finalBd += 1
-        if not lm['finalizado']:
-            continue
-        sum_notas = sum_notas + lm['nota']
-        num_notas += 1
     mediaPython = round(notaPython / finalPython, 1)
     mediaExcel = round(notaExcel / finalExcel, 1)
     mediaBd = round(notaBd / finalBd, 1)
+    tasaPython = round((finalPython / cursoPython) * 100, 1)
+    tasaExcel = round((finalExcel / cursoExcel) * 100, 1)
+    tasaBd = round((finalBd / cursoBd) * 100, 1)
+    resumen["Python básico"] = {
+        "matriculados": cursoPython,
+        "finalizados": finalPython,
+        "nota_media": mediaPython, 
+        "tasa_finalizacion": tasaPython
+    }
+    resumen["Excel avanazado"] = {
+        "matriculados": cursoExcel,
+        "finalizados": finalExcel,
+        "nota_media": mediaExcel, 
+        "tasa_finalizacion": tasaExcel
+    }
+    resumen["Base de datos"] = {
+        "matriculados": cursoBd,
+        "finalizados": finalBd,
+        "nota_media": mediaBd, 
+        "tasa_finalizacion": tasaBd
+    }
 
-    return mediaPython, mediaExcel, mediaBd
+    return resumen
 
 print(resumen_cursos(matriculas))
