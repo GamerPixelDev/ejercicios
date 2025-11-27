@@ -99,7 +99,13 @@ def ranking_categorias(listaMatriculas):
         ranking[cat]["total_tickets"] += 1
         if not lm["resuelto"]:
             ranking[cat]["pendientes"] += 1
-        
-    return ranking
+    ordenado = sorted(ranking.items(), key=lambda ro: (-ro[1]["total_tickets"], -ro[1]["pendientes"], ro[0]))
+    resumen = []
+    for r in ordenado:
+        categoria = r[0]
+        total_tickets = r[1]["total_tickets"]
+        pendientes = r[1]["pendientes"]
+        resumen.append(f"{categoria} -> {total_tickets} tickets ({pendientes} pendientes)")        
+    return resumen
 
 print(ranking_categorias(tickets))
