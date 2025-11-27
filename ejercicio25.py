@@ -43,6 +43,50 @@ matriculas = [
 ]
 
 def dashboard_academia(listaMatriculas):
+    academia = {}
+    alumnos = set()
+    ingreso_total = 0
+    max_curso = None
+    max_ingreso = -1
+    max_alumno = None
+    max_horas = -1
+    for lm in listaMatriculas:
+        alumnos.add(lm["alumno"])
+        curso = lm["curso"]
+        if curso not in academia:
+            academia[curso] = {
+                "matriculados": 0,
+                "ingresos": 0,
+                #"alumnos": [] #Esto ha sido un experimento mio, para ver si podia guardar una lista de nombres de los alumnos
+            }
+        academia[curso]["matriculados"] += 1
+        academia[curso]["ingresos"] += lm["precio"]
+        ingreso_total += lm["precio"]
+        if academia[curso]["ingresos"] > max_ingreso:
+            max_ingreso = academia[curso]["ingresos"]
+            max_curso = curso
+        if not lm["finalizado"]:
+            continue
+        #academia[curso]["alumnos"].append(lm["alumno"]) #Esto forma parte de mi experimento
+        alumno = lm["alumno"]
+        if alumno not in academia:
+            academia[alumno] = {
+                "total_horas": 0
+            }
+        academia[alumno]["total_horas"] += lm["horas"]
+        if academia[alumno]["total_horas"] > max_horas:
+            max_horas = academia[alumno]["total_horas"]
+            max_alumno = alumno   
+    academia["ingresos_totales"] = ingreso_total
+    academia["top_curso_ingresos"] = max_curso
+    academia["total_alumnos"] = len(alumnos)
+    academia["top_horas_alumno"] = max_alumno
+    return academia
+
+#print(dashboard_academia(matriculas))
+
+#Versión corregida
+def dashboard_academia_2(listaMatriculas):
     alumnos = set()
     cursos = {}
     horas_alumnos = {}
@@ -82,4 +126,4 @@ def dashboard_academia(listaMatriculas):
         "alumno_mas_horas": f"{max_alumno} — {max_horas}h"
     }
 
-print(dashboard_academia(matriculas))
+print(dashboard_academia_2(matriculas))
