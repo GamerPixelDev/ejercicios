@@ -49,28 +49,32 @@ tickets = [
 ]
 
 def resumen_soporte(listaTickets):
-    resumen = {}
-    agentes = {}
     total = 0
     resueltos = 0
     pendientes = 0
-    tiempo = 0
-    for id in listaTickets:
+    suma_tiempos = 0
+    num_tiempos = 0
+    agentes = {}
+    for ticket in listaTickets:
         total += 1
-        if id["resuelto"]:
+        if ticket["resuelto"]:
             resueltos += 1
         else:
-            pendientes +=1
-        if id["tiempo_resolucion"] is not None:
-            tiempo += id["tiempo_resolucion"]
-        agente = id["agente"]
-        if agente not in agentes:
-            agentes[agente] = 0
-        if id["tiempo_resolucion"] is not None and id["resuelto"]:
+            pendientes += 1
+        # Solo contamos tiempos de resolución válidos
+        if ticket["resuelto"] and ticket["tiempo_resolucion"] is not None:
+            suma_tiempos += ticket["tiempo_resolucion"]
+            num_tiempos += 1
+            agente = ticket["agente"]
+            if agente not in agentes:
+                agentes[agente] = 0
             agentes[agente] += 1
-    porcentajeResueltos = round((resueltos / total) * 100, 1)
-    tiempoMedio = round(tiempo / total, 1)
-    top_agente = max(agentes)
+    porcentajeResueltos = round((resueltos / total) * 100, 1) if total > 0 else 0.0
+    if num_tiempos > 0:
+        tiempoMedio = round(suma_tiempos / num_tiempos, 1)
+    else:
+        tiempoMedio = None
+    top_agente = max(agentes, key=lambda a: agentes[a]) if agentes else None
     resumen = {
         "total_tickets": total,
         "resueltos": resueltos,
