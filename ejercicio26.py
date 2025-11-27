@@ -1,4 +1,4 @@
-#Ejercicio 26 - Sistemas de soporte ténico
+#Ejercicio 26 - Sistemas de soporte técnico
 #A) resumen_soporte(listaTickets)
 #    Devuelve un diccionario con:
 #        "total_tickets" → número total.
@@ -66,19 +66,19 @@ def resumen_soporte(listaTickets):
         agente = id["agente"]
         if agente not in agentes:
             agentes[agente] = 0
-        if id["tiempo_resolucion"]:
-            continue
-        agentes[agente] += tiempo
+        if id["tiempo_resolucion"] is not None and id["resuelto"]:
+            agentes[agente] += 1
     porcentajeResueltos = round((resueltos / total) * 100, 1)
     tiempoMedio = round(tiempo / total, 1)
+    top_agente = max(agentes)
     resumen = {
         "total_tickets": total,
         "resueltos": resueltos,
         "pendientes": pendientes,
         "porcentaje_resueltos": porcentajeResueltos,
-        "tiempo_medio_resolucion": tiempoMedio
+        "tiempo_medio_resolucion": tiempoMedio,
+        "top_agente": top_agente
     }
-
     return resumen
 
 print(resumen_soporte(tickets))

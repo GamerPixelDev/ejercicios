@@ -57,7 +57,7 @@ def dashboard_academia(listaMatriculas):
             academia[curso] = {
                 "matriculados": 0,
                 "ingresos": 0,
-                #"alumnos": [] #Esto ha sido un experimento mio, para ver si podia guardar una lista de nombres de los alumnos
+                #"alumnos": [] #Esto ha sido un experimento mio, para ver si podía guardar una lista de nombres de los alumnos
             }
         academia[curso]["matriculados"] += 1
         academia[curso]["ingresos"] += lm["precio"]
