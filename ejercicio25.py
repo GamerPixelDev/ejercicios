@@ -126,4 +126,23 @@ def dashboard_academia_2(listaMatriculas):
         "alumno_mas_horas": f"{max_alumno} — {max_horas}h"
     }
 
-print(dashboard_academia_2(matriculas))
+#print(dashboard_academia_2(matriculas))
+
+def ranking_cursos_por_ingresos(listaMatriculas):
+    ranking = {}
+    for lm in listaMatriculas:
+        curso = lm["curso"]
+        precio = lm["precio"]
+        if curso not in ranking:
+            ranking[curso] = 0
+        ranking[curso] += precio
+    ordenado = sorted(ranking.items(), key=lambda ro: ro[1], reverse=True)
+    resultado = []
+    for r in ordenado:
+        curso = r[0]
+        dinero = r[1]
+        resultado.append(f"{curso} --> {dinero}€")
+    return resultado
+
+print(ranking_cursos_por_ingresos(matriculas))
+        
