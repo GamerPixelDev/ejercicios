@@ -145,5 +145,37 @@ def alertas_criticas(listaMatriculas):
     
     return peligroso
 
-print(alertas_criticas(tickets))
+#print(alertas_criticas(tickets))
 
+def alertas_criticas_2(listaTickets):
+    criticos = []
+    # Mapeo de prioridad a valor numérico para ordenar
+    prioridad_valor = {
+        "critica": 2,
+        "alta": 1
+    }
+    # 1) Filtramos solo los tickets críticos
+    for t in listaTickets:
+        if (not t["resuelto"] and
+            (t["prioridad"] in ("critica", "alta") or t["horas_abierto"] > 72)):
+            criticos.append(t)
+    # 2) Ordenamos:
+    #   - primero por prioridad (critica > alta)
+    #   - luego por horas_abierto (mayor a menor)
+    ordenados = sorted(
+        criticos,
+        key=lambda t: (
+            prioridad_valor.get(t["prioridad"], 0),
+            t["horas_abierto"]
+        ),
+        reverse=True
+    )
+    # 3) Formateamos el texto
+    resultado = []
+    for t in ordenados:
+        resultado.append(
+            f"[CRÍTICO] ID {t['id']} — prioridad {t['prioridad']} — {t['horas_abierto']}h abierto"
+        )
+    return resultado
+
+print(alertas_criticas_2(tickets))
