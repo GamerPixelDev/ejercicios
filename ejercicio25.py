@@ -43,9 +43,10 @@ matriculas = [
 ]
 
 def dashboard_academia(listaMatriculas):
-    academia = {}
     alumnos = set()
-    ingreso_total = 0
+    cursos = {}
+    horas_alumnos = {}
+    ingresos_totales = 0
     max_curso = None
     max_ingreso = -1
     max_alumno = None
@@ -53,38 +54,32 @@ def dashboard_academia(listaMatriculas):
     for lm in listaMatriculas:
         alumnos.add(lm["alumno"])
         curso = lm["curso"]
-        if curso not in academia:
-            academia[curso] = {
-                "matriculados": 0,
-                "ingresos": 0,
-                #"alumnos": [] #Esto ha sido un experimento mio, para ver si podia guardar una lista de nombres de los alumnos
-            }
-        if lm["alumno"] is not None:
-            academia[curso]["matriculados"] += 1
-        academia[curso]["ingresos"] += lm["precio"]
-        ingreso_total += academia[curso]["ingresos"]
-        if academia[curso]["ingresos"] > max_ingreso:
-            max_ingreso = academia[curso]["ingresos"]
+        precio = lm["precio"]
+        # Cursos
+        if curso not in cursos:
+            cursos[curso] = {"matriculados": 0, "ingresos": 0}
+        cursos[curso]["matriculados"] += 1
+        cursos[curso]["ingresos"] += precio
+        ingresos_totales += precio
+        if cursos[curso]["ingresos"] > max_ingreso:
+            max_ingreso = cursos[curso]["ingresos"]
             max_curso = curso
+        # Horas por alumno (solo finalizados)
         if not lm["finalizado"]:
             continue
-        #academia[curso]["alumnos"].append(lm["alumno"]) #Esto forma parte de mi experimento
         alumno = lm["alumno"]
-        if alumno not in academia:
-            academia[alumno] = {
-                "total_horas": 0
-            }
-        academia[alumno]["total_horas"] += lm["horas"]
-        if academia[alumno]["total_horas"] > max_horas:
-            max_horas = academia[alumno]["total_horas"]
+        if alumno not in horas_alumnos:
+            horas_alumnos[alumno] = 0
+        horas_alumnos[alumno] += lm["horas"]
+        if horas_alumnos[alumno] > max_horas:
+            max_horas = horas_alumnos[alumno]
             max_alumno = alumno
-        
-    academia["ingresos_totales"] = ingreso_total
-    academia["top_curso_ingresos"] = max_curso
-    academia["total_alumnos"] = len(alumnos)
-    academia["top_horas_alumno"] = max_alumno
-    
-    
-    return academia
+    return {
+        "total_alumnos": len(alumnos),
+        "total_matriculas": len(listaMatriculas),
+        "ingresos_totales": ingresos_totales,
+        "curso_top_ingresos": f"{max_curso} — {max_ingreso}€",
+        "alumno_mas_horas": f"{max_alumno} — {max_horas}h"
+    }
 
 print(dashboard_academia(matriculas))
