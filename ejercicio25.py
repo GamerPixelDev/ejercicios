@@ -61,7 +61,10 @@ def dashboard_academia(listaMatriculas):
         if academia[curso]["ingresos"] > max_ingreso:
             max_ingreso = academia[curso]["ingresos"]
             max_curso = curso
+        
+    academia["ingresos_totales"] = ingreso_total
+    academia["top_curso_ingresos"] = max_curso
     
-    return academia, ingreso_total, max_curso
+    return academia
 
 print(dashboard_academia(matriculas))
