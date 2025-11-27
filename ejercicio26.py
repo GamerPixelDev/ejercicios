@@ -85,4 +85,21 @@ def resumen_soporte(listaTickets):
     }
     return resumen
 
-print(resumen_soporte(tickets))
+#print(resumen_soporte(tickets))
+
+def ranking_categorias(listaMatriculas):
+    ranking = {}
+    for lm in listaMatriculas:
+        cat = lm["categoria"]
+        if cat not in  ranking:
+            ranking[cat] = {
+                "total_tickets": 0,
+                "pendientes": 0
+            }
+        ranking[cat]["total_tickets"] += 1
+        if not lm["resuelto"]:
+            ranking[cat]["pendientes"] += 1
+        
+    return ranking
+
+print(ranking_categorias(tickets))
