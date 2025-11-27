@@ -85,7 +85,7 @@ def resumen_soporte(listaTickets):
     }
     return resumen
 
-#print(resumen_soporte(tickets))
+#print(resumen_soporte(tickets)) #Comentar o descomentar si se desea que aparezca por terminal
 
 def ranking_categorias(listaMatriculas):
     ranking = {}
@@ -98,8 +98,12 @@ def ranking_categorias(listaMatriculas):
             }
         ranking[cat]["total_tickets"] += 1
         if not lm["resuelto"]:
-            ranking[cat]["pendientes"] += 1
-    ordenado = sorted(ranking.items(), key=lambda ro: (-ro[1]["total_tickets"], -ro[1]["pendientes"], ro[0]))
+            ranking[cat]["pendientes"] += 1                                                                                                                 #(  [0]    ,   [1]     )
+    ordenado = sorted(ranking.items(), #Convierte el diccionario ranking en una lista de tuplas. Cada tupla tiene este formato: (clave, valor), por ejemplo: ("Hardware", {"total_tickets": 10, "pendientes": 2}).
+                        key=lambda ro: ( #Define cómo comparar los elementos. ro es cada tupla individual. ro[0] accede al primer elemento de la tupla, que es la cadena de texto de la categoría (la clave).
+                            -ro[1]["total_tickets"],
+                            -ro[1]["pendientes"],
+                            ro[0]))
     resumen = []
     for r in ordenado:
         categoria = r[0]
@@ -108,4 +112,38 @@ def ranking_categorias(listaMatriculas):
         resumen.append(f"{categoria} -> {total_tickets} tickets ({pendientes} pendientes)")        
     return resumen
 
-print(ranking_categorias(tickets))
+#print(ranking_categorias(tickets)) #Comentar o descomentar si se desea que aparezca por terminal
+
+def alertas_criticas(listaMatriculas):
+    alertas = {}
+    alarma = 0
+    for lm in listaMatriculas:
+        ticket = lm["id"]
+        if ticket not in alertas:
+            alertas[ticket] = {
+                "alarma": 0,
+                "horas": 0,
+                "prioridad": None
+            }
+        if not lm["resuelto"] and (lm["prioridad"] == ("critica" or "alta") or lm["horas_abierto"] > 72): #Critico
+            alarma = 2
+        elif lm["resuelto"] and lm["prioridad"] == "alta": #Alto
+            alarma = 1
+        else: #Normal
+            alarma = 0
+        alertas[ticket]["alarma"] = alarma
+        alertas[ticket]["horas"] = lm["horas_abierto"]
+        alertas[ticket]["prioridad"] = lm["prioridad"]
+    ordenado = sorted(alertas.items(), key=lambda ao: (-ao[1]["alarma"], -ao[1]["horas"]))
+    peligroso = []
+    for r in ordenado:
+        idTicket = r[0]
+        idAlarma = r[1]["alarma"]
+        idHoras = r[1]["horas"]
+        idPrior = r[1]["prioridad"]
+        peligroso.append(f"{'[CRÍTICO]' if idAlarma == 2 else ''} ID {idTicket} — prioridad {idPrior} — {idHoras}h abierto")
+    
+    return peligroso
+
+print(alertas_criticas(tickets))
+
